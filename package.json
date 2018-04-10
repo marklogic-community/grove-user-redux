@@ -1,0 +1,43 @@
+{
+  "name": "muir-user-redux",
+  "version": "0.1.0",
+  "description": "Redux module to power MarkLogic UI Resources (MUIR) user state",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "eslint src && jest",
+    "test:watch": "eslint src && jest --watch"
+  },
+  "jest": {
+    "testURL": "http://localhost"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@project.marklogic.com:7999/~pmcelwee/muir-user-redux.git"
+  },
+  "keywords": [
+    "Redux",
+    "MarkLogic",
+    "User",
+    "Authentication"
+  ],
+  "author": "Patrick McElwee <patrick.mcelwee@marklogic.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^4.7.2",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "jest": "^22.4.3",
+    "nock": "^9.2.5",
+    "prettier": "^1.11.1",
+    "webpack": "^4.5.0"
+  },
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  }
+}
