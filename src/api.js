@@ -2,7 +2,7 @@ require('isomorphic-fetch');
 
 export default {
   login: (username, password) => {
-    return fetch(new URL('/api/user/login', document.baseURI).toString(), {
+    return fetch(new URL('/api/auth/login', document.baseURI).toString(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -12,11 +12,8 @@ export default {
     });
   },
   logout: username => {
-    return fetch(new URL('/api/user/logout', document.baseURI).toString(), {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+    return fetch(new URL('/api/auth/logout', document.baseURI).toString(), {
+      method: 'POST',
       credentials: 'same-origin'
     }).then(
       response => {
@@ -29,11 +26,8 @@ export default {
     );
   },
   status: () => {
-    return fetch(new URL('/api/user/status', document.baseURI).toString(), {
+    return fetch(new URL('/api/auth/status', document.baseURI).toString(), {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
       credentials: 'same-origin'
     }).then(
       response => {
