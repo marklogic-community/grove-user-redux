@@ -4,4 +4,4 @@ This Redux module for user authentication forms part of the MarkLogic UI Resourc
 
 ## Install
 
-    npm install ssh://git@project.marklogic.com:7999/~pmcelwee/muir-user-redux.git --save
+    npm install muir-user-redux --save
