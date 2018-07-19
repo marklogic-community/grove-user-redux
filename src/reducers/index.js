@@ -24,10 +24,11 @@ export default (state = {}, action) => {
         ...state,
         currentUser: action.payload.username
       };
-    case types.LOCAL_LOGOUT:
+    case types.LOCAL_LOGOUT: {
       let stateClone = Object.assign({}, state);
       delete stateClone.currentUser;
       return stateClone;
+    }
     case types.FETCH_AUTHSTATUS_SUCCESS:
       username = action.payload.user.username;
       return action.payload.user.authenticated

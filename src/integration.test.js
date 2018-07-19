@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import nock from 'nock';
@@ -69,7 +70,7 @@ describe('muir-user-redux', () => {
   // TODO: handle errors
   it('does network logout', done => {
     nock('http://localhost')
-      .get(/logout/)
+      .post(/logout/)
       .reply(200);
     store.dispatch(actions.setCurrentUser('muir-user'));
     store.dispatch(actions.completeLogin(user));

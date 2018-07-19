@@ -1,3 +1,4 @@
+/* globals require */
 require('isomorphic-fetch');
 
 export default {
@@ -11,7 +12,7 @@ export default {
       body: JSON.stringify({ username, password })
     });
   },
-  logout: username => {
+  logout: () => {
     return fetch(new URL('/api/auth/logout', document.baseURI).toString(), {
       method: 'POST',
       credentials: 'same-origin'
@@ -20,7 +21,9 @@ export default {
         return response;
       },
       error => {
+        /* eslint-disable no-console */
         console.log('error:', error);
+        /* eslint-enable no-console */
         throw error;
       }
     );
@@ -39,7 +42,9 @@ export default {
         return response.json();
       },
       error => {
+        /* eslint-disable no-console */
         console.log('error:', error);
+        /* eslint-enable no-console */
         throw error;
       }
     );
