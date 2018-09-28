@@ -98,19 +98,43 @@ describe('muir-user-redux', () => {
         authenticated: true,
         username: 'muir-user'
       });
-    store.dispatch(actions.getAuthenticationStatus()).then(() => {
-      try {
-        expect(selectors.currentUser(store.getState())).toEqual('muir-user');
-        expect(
-          selectors.isAuthenticated(store.getState(), 'muir-user')
-        ).toBeTruthy();
-        expect(
-          selectors.isCurrentUserAuthenticated(store.getState())
-        ).toBeTruthy();
-        done();
-      } catch (error) {
-        done.fail(error);
-      }
-    });
+    store
+      .dispatch(actions.getAuthenticationStatus())
+      .then(() => {
+        try {
+          expect(selectors.currentUser(store.getState())).toEqual('muir-user');
+          expect(
+            selectors.isAuthenticated(store.getState(), 'muir-user')
+          ).toBeTruthy();
+          expect(
+            selectors.isCurrentUserAuthenticated(store.getState())
+          ).toBeTruthy();
+        } catch (error) {
+          done.fail(error);
+        }
+      })
+      .then(() => {
+        // user no longer authenticated
+        nock('http://localhost')
+          .get(/status/)
+          .reply(200, {
+            authenticated: false
+          });
+        return store.dispatch(actions.getAuthenticationStatus());
+      })
+      .then(() => {
+        try {
+          expect(selectors.currentUser(store.getState())).toBeUndefined();
+          expect(
+            selectors.isAuthenticated(store.getState(), 'muir-user')
+          ).toBeFalsy();
+          expect(
+            selectors.isCurrentUserAuthenticated(store.getState())
+          ).toBeFalsy();
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
   });
 });

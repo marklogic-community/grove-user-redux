@@ -29,18 +29,20 @@ export default (state = {}, action) => {
       delete stateClone.currentUser;
       return stateClone;
     }
-    case types.FETCH_AUTHSTATUS_SUCCESS:
-      username = action.payload.user.username;
-      return action.payload.user.authenticated
-        ? {
-            ...state,
-            currentUser: username,
-            [username]: {
-              ...state[username],
-              isAuthenticated: true
-            }
-          }
-        : state;
+    case types.FETCH_AUTHSTATUS_SUCCESS: {
+      const newState = {
+        ...state,
+        currentUser: action.payload.user.username
+      };
+      username = action.payload.user.username || state.currentUser;
+      if (username) {
+        newState[username] = {
+          ...state[username],
+          isAuthenticated: action.payload.user.authenticated
+        };
+      }
+      return newState;
+    }
     default:
       return state;
   }
