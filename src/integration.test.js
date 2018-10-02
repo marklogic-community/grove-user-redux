@@ -5,20 +5,20 @@ import nock from 'nock';
 
 import reducer, { actions, selectors } from './';
 
-describe('muir-user-redux', () => {
+describe('grove-user-redux', () => {
   let store;
   beforeEach(() => {
     store = createStore(reducer, applyMiddleware(thunk));
   });
   afterEach(nock.cleanAll);
 
-  const user = { username: 'muir-user' };
+  const user = { username: 'grove-user' };
 
   it('has initial state', () => {
     expect(selectors.currentUser(store.getState())).toBeUndefined();
     expect(selectors.isCurrentUserAuthenticated(store.getState())).toBeFalsy();
     expect(
-      selectors.isAuthenticated(store.getState(), 'muir-user')
+      selectors.isAuthenticated(store.getState(), 'grove-user')
     ).toBeFalsy();
   });
 
@@ -29,13 +29,13 @@ describe('muir-user-redux', () => {
   it('can complete simple login', () => {
     store.dispatch(actions.completeLogin(user));
     expect(
-      selectors.isAuthenticated(store.getState(), 'muir-user')
+      selectors.isAuthenticated(store.getState(), 'grove-user')
     ).toBeTruthy();
   });
 
   it('can set current user', () => {
-    store.dispatch(actions.setCurrentUser('muir-user'));
-    expect(selectors.currentUser(store.getState())).toEqual('muir-user');
+    store.dispatch(actions.setCurrentUser('grove-user'));
+    expect(selectors.currentUser(store.getState())).toEqual('grove-user');
   });
 
   // TODO: handle errors
@@ -44,10 +44,10 @@ describe('muir-user-redux', () => {
       .post(/login/)
       .reply(200);
     // TODO: test authorization pending
-    store.dispatch(actions.submitLogin('muir-user', 'password')).then(() => {
+    store.dispatch(actions.submitLogin('grove-user', 'password')).then(() => {
       try {
         expect(
-          selectors.isAuthenticated(store.getState(), 'muir-user')
+          selectors.isAuthenticated(store.getState(), 'grove-user')
         ).toBeTruthy();
         expect(
           selectors.isCurrentUserAuthenticated(store.getState())
@@ -60,9 +60,9 @@ describe('muir-user-redux', () => {
   });
 
   it('does local log out', () => {
-    store.dispatch(actions.setCurrentUser('muir-user'));
+    store.dispatch(actions.setCurrentUser('grove-user'));
     store.dispatch(actions.completeLogin(user));
-    store.dispatch(actions.localLogout('muir-user'));
+    store.dispatch(actions.localLogout('grove-user'));
     expect(selectors.currentUser(store.getState())).toBeUndefined();
     expect(selectors.isCurrentUserAuthenticated(store.getState())).toBeFalsy();
   });
@@ -72,13 +72,13 @@ describe('muir-user-redux', () => {
     nock('http://localhost')
       .post(/logout/)
       .reply(200);
-    store.dispatch(actions.setCurrentUser('muir-user'));
+    store.dispatch(actions.setCurrentUser('grove-user'));
     store.dispatch(actions.completeLogin(user));
     // TODO: pending state
-    store.dispatch(actions.submitLogout('muir-user')).then(() => {
+    store.dispatch(actions.submitLogout('grove-user')).then(() => {
       try {
         expect(
-          selectors.isAuthenticated(store.getState(), 'muir-user')
+          selectors.isAuthenticated(store.getState(), 'grove-user')
         ).toBeFalsy();
         expect(selectors.currentUser(store.getState())).toBeUndefined();
         expect(
@@ -96,15 +96,15 @@ describe('muir-user-redux', () => {
       .get(/status/)
       .reply(200, {
         authenticated: true,
-        username: 'muir-user'
+        username: 'grove-user'
       });
     store
       .dispatch(actions.getAuthenticationStatus())
       .then(() => {
         try {
-          expect(selectors.currentUser(store.getState())).toEqual('muir-user');
+          expect(selectors.currentUser(store.getState())).toEqual('grove-user');
           expect(
-            selectors.isAuthenticated(store.getState(), 'muir-user')
+            selectors.isAuthenticated(store.getState(), 'grove-user')
           ).toBeTruthy();
           expect(
             selectors.isCurrentUserAuthenticated(store.getState())
@@ -126,7 +126,7 @@ describe('muir-user-redux', () => {
         try {
           expect(selectors.currentUser(store.getState())).toBeUndefined();
           expect(
-            selectors.isAuthenticated(store.getState(), 'muir-user')
+            selectors.isAuthenticated(store.getState(), 'grove-user')
           ).toBeFalsy();
           expect(
             selectors.isCurrentUserAuthenticated(store.getState())
