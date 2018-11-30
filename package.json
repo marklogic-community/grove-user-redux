@@ -47,8 +47,7 @@
     "isomorphic-fetch": "^2.2.1"
   },
   "peerDependencies": {
-    "redux": "^2.0.0 || ^3.0.0 || ^4.0.0-0",
-    "redux-thunk": "^2.2.0"
+    "redux": "^2.0.0 || ^3.0.0 || ^4.0.0-0"
   },
   "contributors": [
     {
