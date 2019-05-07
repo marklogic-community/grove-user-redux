@@ -17,17 +17,19 @@ export const submitLogin = (username, password, extraArgs = {}) => {
     dispatch({
       type: types.NETWORK_LOGIN_PENDING
     });
-    return API.login(username, password).then(response => {
-      if (response.ok) {
-        dispatch(setCurrentUser(username));
-        dispatch(completeLogin({ username }));
-      }
-    }).catch(error => {
-      dispatch({
-        type: types.NETWORK_LOGIN_ERROR,
-        payload: error
+    return API.login(username, password)
+      .then(response => {
+        if (response.ok) {
+          dispatch(setCurrentUser(username));
+          dispatch(completeLogin({ username }));
+        }
+      })
+      .catch(error => {
+        dispatch({
+          type: types.NETWORK_LOGIN_ERROR,
+          payload: error
+        });
       });
-    });
   };
 };
 
@@ -43,16 +45,18 @@ export const submitLogout = (username, extraArgs = {}) => {
     dispatch({
       type: types.NETWORK_LOGOUT_PENDING
     });
-    return API.logout(username).then(response => {
-      if (response.ok) {
-        dispatch(completeNetworkLogout(username));
-      }
-    }).catch(error => {
-      dispatch({
-        type: types.NETWORK_LOGOUT_ERROR,
-        payload: error
+    return API.logout(username)
+      .then(response => {
+        if (response.ok) {
+          dispatch(completeNetworkLogout(username));
+        }
+      })
+      .catch(error => {
+        dispatch({
+          type: types.NETWORK_LOGOUT_ERROR,
+          payload: error
+        });
       });
-    });
   };
 };
 
@@ -66,16 +70,18 @@ export const getAuthenticationStatus = (extraArgs = {}) => {
     dispatch({
       type: types.FETCH_AUTHSTATUS_PENDING
     });
-    return API.status().then(response => {
-      dispatch({
-        type: types.FETCH_AUTHSTATUS_SUCCESS,
-        payload: { user: response }
+    return API.status()
+      .then(response => {
+        dispatch({
+          type: types.FETCH_AUTHSTATUS_SUCCESS,
+          payload: { user: response }
+        });
+      })
+      .catch(error => {
+        dispatch({
+          type: types.FETCH_AUTHSTATUS_ERROR,
+          payload: error
+        });
       });
-    }).catch(error => {
-      dispatch({
-        type: types.FETCH_AUTHSTATUS_ERROR,
-        payload: error
-      });
-    });
   };
 };
