@@ -76,8 +76,7 @@ export const getAuthenticationStatus = (extraArgs = {}) => {
   const API = extraArgs.api || defaultAPI;
   return dispatch => {
     dispatch({
-      type: types.FETCH_AUTHSTATUS_PENDING,
-      payload: { username }
+      type: types.FETCH_AUTHSTATUS_PENDING
     });
     return API.status()
       .then(response => {
@@ -90,8 +89,7 @@ export const getAuthenticationStatus = (extraArgs = {}) => {
         dispatch({
           type: types.FETCH_AUTHSTATUS_ERROR,
           payload: {
-            error,
-            username
+            error
           }
         });
       });
