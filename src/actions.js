@@ -14,15 +14,19 @@ export const setCurrentUser = username => ({
 export const submitLogin = (username, password, extraArgs = {}) => {
   const API = extraArgs.api || defaultAPI;
   return dispatch => {
-    // TODO: pending state
-    // dispatch({
-    //   type:
-    // })
+    dispatch({
+      type: types.NETWORK_LOGIN_PENDING
+    });
     return API.login(username, password).then(response => {
       if (response.ok) {
         dispatch(setCurrentUser(username));
         dispatch(completeLogin({ username }));
       }
+    }).catch(error => {
+      dispatch({
+        type: types.NETWORK_LOGIN_ERROR,
+        payload: error
+      });
     });
   };
 };
@@ -36,14 +40,18 @@ export const submitLogout = (username, extraArgs = {}) => {
   const API = extraArgs.api || defaultAPI;
   return dispatch => {
     dispatch(localLogout());
-    // TODO: pending state
-    // dispatch({
-    //   type:
-    // })
+    dispatch({
+      type: types.NETWORK_LOGOUT_PENDING
+    });
     return API.logout(username).then(response => {
       if (response.ok) {
         dispatch(completeNetworkLogout(username));
       }
+    }).catch(error => {
+      dispatch({
+        type: types.NETWORK_LOGOUT_ERROR,
+        payload: error
+      });
     });
   };
 };
@@ -55,14 +63,18 @@ export const localLogout = () => ({
 export const getAuthenticationStatus = (extraArgs = {}) => {
   const API = extraArgs.api || defaultAPI;
   return dispatch => {
-    // TODO: pending state
-    // dispatch({
-    //   type:
-    // })
+    dispatch({
+      type: types.FETCH_AUTHSTATUS_PENDING
+    });
     return API.status().then(response => {
       dispatch({
         type: types.FETCH_AUTHSTATUS_SUCCESS,
         payload: { user: response }
+      });
+    }).catch(error => {
+      dispatch({
+        type: types.FETCH_AUTHSTATUS_ERROR,
+        payload: error
       });
     });
   };

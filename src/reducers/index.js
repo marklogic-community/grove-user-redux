@@ -8,7 +8,26 @@ export default (state = {}, action) => {
         ...state,
         [username]: {
           ...state[username],
+          isLoginPending: false,
           isAuthenticated: true
+        }
+      };
+    case types.NETWORK_LOGIN_ERROR:
+      username = action.payload.user.username;
+      return {
+        ...state,
+        [username]: {
+          ...state[username],
+          isLoginPending: false
+        }
+      };
+    case types.NETWORK_LOGIN_PENDING:
+      username = action.payload.user.username;
+      return {
+        ...state,
+        [username]: {
+          ...state[username],
+          isLoginPending: true
         }
       };
     case types.NETWORK_LOGOUT_SUCCESS:
@@ -16,7 +35,24 @@ export default (state = {}, action) => {
         ...state,
         [action.payload.username]: {
           ...state[action.payload.username],
+          isLogoutPending: false,
           isAuthenticated: false
+        }
+      };
+    case types.NETWORK_LOGOUT_ERROR:
+      return {
+        ...state,
+        [action.payload.username]: {
+          ...state[action.payload.username],
+          isLogoutPending: false
+        }
+      };
+    case types.NETWORK_LOGOUT_PENDING:
+      return {
+        ...state,
+        [action.payload.username]: {
+          ...state[action.payload.username],
+          isLogoutPending: true
         }
       };
     case types.SET_CURRENT_USER:
@@ -38,7 +74,36 @@ export default (state = {}, action) => {
       if (username) {
         newState[username] = {
           ...state[username],
+          isAuthStatusPending: false,
           isAuthenticated: action.payload.user.authenticated
+        };
+      }
+      return newState;
+    }
+    case types.FETCH_AUTHSTATUS_ERROR: {
+      const newState = {
+        ...state,
+        currentUser: action.payload.user.username
+      };
+      username = action.payload.user.username || state.currentUser;
+      if (username) {
+        newState[username] = {
+          ...state[username],
+          isAuthStatusPending: false
+        };
+      }
+      return newState;
+    }
+    case types.FETCH_AUTHSTATUS_PENDING: {
+      const newState = {
+        ...state,
+        currentUser: action.payload.user.username
+      };
+      username = action.payload.user.username || state.currentUser;
+      if (username) {
+        newState[username] = {
+          ...state[username],
+          isAuthStatusPending: true
         };
       }
       return newState;
