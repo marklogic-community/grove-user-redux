@@ -25,7 +25,6 @@ export default (state = {}, action) => {
       username = action.payload.username;
       return {
         ...state,
-        isLoginPending: true,
         [username]: {
           ...state[username],
           isLoginPending: true
@@ -117,9 +116,21 @@ export default (state = {}, action) => {
 const currentUser = state => state.currentUser;
 const isAuthenticated = (state, user) =>
   state[user] && state[user].isAuthenticated;
+const isLoginPending = (state, user) => {
+  return state[user] && state[user].isLoginPending;
+};
+const isLogoutPending = (state, user) => {
+  return state[user] && state[user].isLogoutPending;
+};
+const isAuthStatusPending = state => {
+  return state.isAuthStatusPending;
+};
 
 const selectors = {
-  isAuthenticated: (state, user) => state[user] && state[user].isAuthenticated,
+  isAuthenticated,
+  isLoginPending,
+  isLogoutPending,
+  isAuthStatusPending,
   isCurrentUserAuthenticated: state => {
     const user = currentUser(state);
     return !!user && isAuthenticated(state, user);
