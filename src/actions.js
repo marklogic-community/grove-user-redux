@@ -15,7 +15,8 @@ export const submitLogin = (username, password, extraArgs = {}) => {
   const API = extraArgs.api || defaultAPI;
   return dispatch => {
     dispatch({
-      type: types.NETWORK_LOGIN_PENDING
+      type: types.NETWORK_LOGIN_PENDING,
+      payload: { username }
     });
     return API.login(username, password)
       .then(response => {
@@ -27,7 +28,10 @@ export const submitLogin = (username, password, extraArgs = {}) => {
       .catch(error => {
         dispatch({
           type: types.NETWORK_LOGIN_ERROR,
-          payload: error
+          payload: {
+            error,
+            username
+          }
         });
       });
   };
@@ -43,7 +47,8 @@ export const submitLogout = (username, extraArgs = {}) => {
   return dispatch => {
     dispatch(localLogout());
     dispatch({
-      type: types.NETWORK_LOGOUT_PENDING
+      type: types.NETWORK_LOGOUT_PENDING,
+      payload: { username }
     });
     return API.logout(username)
       .then(response => {
@@ -54,7 +59,10 @@ export const submitLogout = (username, extraArgs = {}) => {
       .catch(error => {
         dispatch({
           type: types.NETWORK_LOGOUT_ERROR,
-          payload: error
+          payload: {
+            error,
+            username
+          }
         });
       });
   };
@@ -68,7 +76,8 @@ export const getAuthenticationStatus = (extraArgs = {}) => {
   const API = extraArgs.api || defaultAPI;
   return dispatch => {
     dispatch({
-      type: types.FETCH_AUTHSTATUS_PENDING
+      type: types.FETCH_AUTHSTATUS_PENDING,
+      payload: { username }
     });
     return API.status()
       .then(response => {
@@ -80,7 +89,10 @@ export const getAuthenticationStatus = (extraArgs = {}) => {
       .catch(error => {
         dispatch({
           type: types.FETCH_AUTHSTATUS_ERROR,
-          payload: error
+          payload: {
+            error,
+            username
+          }
         });
       });
   };

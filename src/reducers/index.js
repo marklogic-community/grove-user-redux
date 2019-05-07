@@ -13,7 +13,7 @@ export default (state = {}, action) => {
         }
       };
     case types.NETWORK_LOGIN_ERROR:
-      username = action.payload.user.username;
+      username = action.payload.username;
       return {
         ...state,
         [username]: {
@@ -22,9 +22,10 @@ export default (state = {}, action) => {
         }
       };
     case types.NETWORK_LOGIN_PENDING:
-      username = action.payload.user.username;
+      username = action.payload.username;
       return {
         ...state,
+        isLoginPending: true,
         [username]: {
           ...state[username],
           isLoginPending: true
@@ -83,9 +84,9 @@ export default (state = {}, action) => {
     case types.FETCH_AUTHSTATUS_ERROR: {
       const newState = {
         ...state,
-        currentUser: action.payload.user.username
+        currentUser: action.payload.username
       };
-      username = action.payload.user.username || state.currentUser;
+      username = action.payload.username || state.currentUser;
       if (username) {
         newState[username] = {
           ...state[username],
@@ -97,9 +98,9 @@ export default (state = {}, action) => {
     case types.FETCH_AUTHSTATUS_PENDING: {
       const newState = {
         ...state,
-        currentUser: action.payload.user.username
+        currentUser: action.payload.username
       };
-      username = action.payload.user.username || state.currentUser;
+      username = action.payload.username || state.currentUser;
       if (username) {
         newState[username] = {
           ...state[username],
