@@ -1,5 +1,5 @@
 import * as types from '../actionTypes';
-export default (state = {}, action) => {
+export default (state = { isAuthStatusKnown: false }, action) => {
   let username;
   switch (action.type) {
     case types.NETWORK_LOGIN_SUCCESS:
@@ -68,13 +68,14 @@ export default (state = {}, action) => {
     case types.FETCH_AUTHSTATUS_SUCCESS: {
       const newState = {
         ...state,
-        currentUser: action.payload.user.username
+        currentUser: action.payload.user.username,
+        isAuthStatusKnown: true,
+        isAuthStatusPending: false
       };
       username = action.payload.user.username || state.currentUser;
       if (username) {
         newState[username] = {
           ...state[username],
-          isAuthStatusPending: false,
           isAuthenticated: action.payload.user.authenticated
         };
       }
@@ -83,29 +84,15 @@ export default (state = {}, action) => {
     case types.FETCH_AUTHSTATUS_ERROR: {
       const newState = {
         ...state,
-        currentUser: action.payload.username
+        isAuthStatusPending: false
       };
-      username = action.payload.username || state.currentUser;
-      if (username) {
-        newState[username] = {
-          ...state[username],
-          isAuthStatusPending: false
-        };
-      }
       return newState;
     }
     case types.FETCH_AUTHSTATUS_PENDING: {
       const newState = {
         ...state,
-        currentUser: action.payload.username
+        isAuthStatusPending: true
       };
-      username = action.payload.username || state.currentUser;
-      if (username) {
-        newState[username] = {
-          ...state[username],
-          isAuthStatusPending: true
-        };
-      }
       return newState;
     }
     default:
@@ -116,14 +103,19 @@ export default (state = {}, action) => {
 const currentUser = state => state.currentUser;
 const isAuthenticated = (state, user) =>
   state[user] && state[user].isAuthenticated;
-const isLoginPending = (state, user) => {
+const isLoginPending = state => {
+  const user = currentUser(state);
   return state[user] && state[user].isLoginPending;
 };
-const isLogoutPending = (state, user) => {
+const isLogoutPending = state => {
+  const user = currentUser(state);
   return state[user] && state[user].isLogoutPending;
 };
 const isAuthStatusPending = state => {
-  return state.isAuthStatusPending;
+  // return state.isAuthStatusPending;
+  return typeof state.isAuthStatusPending === 'boolean'
+    ? state.isAuthStatusPending
+    : true;
 };
 
 const selectors = {
@@ -131,6 +123,7 @@ const selectors = {
   isLoginPending,
   isLogoutPending,
   isAuthStatusPending,
+  isAuthStatusKnown: state => state.isAuthStatusKnown,
   isCurrentUserAuthenticated: state => {
     const user = currentUser(state);
     return !!user && isAuthenticated(state, user);
