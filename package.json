@@ -1,6 +1,6 @@
 {
   "name": "@marklogic-community/grove-user-redux",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0",
   "description": "Redux module to power MarkLogic Grove user state",
   "main": "dist/index.js",
   "scripts": {
@@ -24,7 +24,6 @@
     "User",
     "Authentication"
   ],
-  "author": "Patrick McElwee <patrick.mcelwee@marklogic.com>",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/marklogic-community/grove-user-redux/issues"
@@ -54,8 +53,8 @@
   },
   "contributors": [
     {
-      "name": "Patrick McElwee",
-      "url": "https://github.com/patrickmcelwee"
+      "name": "Matt Pileggi",
+      "url": "https://github.com/withjam"
     },
     {
       "name": "Marianne Myers",
