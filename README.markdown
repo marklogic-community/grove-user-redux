@@ -1,7 +1,3 @@
-# User Management in Redux
+This repository is NOW DEPRECATED.
 
-This Redux module for user authentication forms part of the MarkLogic Grove project. In addition to client state management, it handles API calls to a Grove middle-tier. See the [reference application](https://github.com/marklogic-community/grove-react-template) for an example of using this library in practice.
-
-## Install
-
-    npm install @marklogic-community/grove-user-redux --save
+User state management in the React flavor of the MarkLogic Grove project is now maintained directly in the [Grove React UI](https://github.com/marklogic-community/grove-react-ui).  The core functionality of this project was moved to [src/redux/user](https://github.com/marklogic-community/grove-react-ui/tree/master/src/redux/user) in that project.
